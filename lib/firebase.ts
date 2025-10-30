@@ -1,19 +1,26 @@
-
 import { initializeApp } from 'https://esm.sh/firebase@10.12.2/app';
 import { getAuth } from 'https://esm.sh/firebase@10.12.2/auth';
+import { getFirestore } from 'https://esm.sh/firebase@10.12.2/firestore';
 
-// IMPORTANT: Your web app's Firebase configuration should be sourced from environment variables.
+// =================================================================================
+// TODO: 아래 내용을 본인 프로젝트의 Firebase 설정으로 교체해주세요.
+// Firebase 콘솔(https://console.firebase.google.com/)의 프로젝트 설정에서
+// '웹 앱'의 firebaseConfig 객체를 복사하여 붙여넣으면 됩니다.
+// =================================================================================
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  apiKey: "AIzaSyCCykfIGom6dd80T4JgDynZaXbsO2iYzCw",
+  authDomain: "hanuz-marriage.firebaseapp.com",
+  projectId: "hanuz-marriage",
+  storageBucket: "hanuz-marriage.firebasestorage.app",
+  messagingSenderId: "226067109424",
+  appId: "1:226067109424:web:cb0cebef4a17a22b27bff5",
+  measurementId: "G-KT40XFN51H"
 };
 
-// Initialize Firebase
+
+// Firebase 초기화
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Authentication and get a reference to the service
+// Firebase 서비스 초기화
 export const auth = getAuth(app);
+export const db = getFirestore(app);

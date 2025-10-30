@@ -1,8 +1,10 @@
-
 import React from 'https://esm.sh/react@18.2.0';
 import ReactDOM from 'https://esm.sh/react-dom@18.2.0/client';
-import 'https://esm.sh/firebase@10.12.2/auth'; // Import for side-effects to register auth component
-// Fix: Explicitly import App.tsx to resolve module error.
+
+// This side-effect import helps ensure Firebase components are registered.
+import 'https://esm.sh/firebase@10.12.2/auth'; 
+import 'https://esm.sh/firebase@10.12.2/firestore';
+
 import App from './App.tsx';
 
 const rootElement = document.getElementById('root');
