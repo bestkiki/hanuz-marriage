@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+
+import React, { useState } from 'https://esm.sh/react@18.2.0';
+import { useNavigate } from 'https://esm.sh/react-router-dom@6.23.1';
+import { signInWithEmailAndPassword } from 'https://esm.sh/firebase@10.12.2/auth';
 import { auth } from '../lib/firebase';
 
 const Login: React.FC = () => {

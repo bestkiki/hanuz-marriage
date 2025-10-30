@@ -1,5 +1,6 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+
+import { initializeApp } from "https://esm.sh/firebase@10.12.2/app";
+import { getAuth } from "https://esm.sh/firebase@10.12.2/auth";
 
 // IMPORTANT: Replace the following with your app's Firebase project configuration.
 // See the instructions provided on how to obtain this from the Firebase console.

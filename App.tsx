@@ -1,6 +1,7 @@
-import React, { useState, useEffect, ReactNode } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { User, onAuthStateChanged } from 'firebase/auth';
+
+import React, { useState, useEffect, ReactNode } from 'https://esm.sh/react@18.2.0';
+import { BrowserRouter, Routes, Route, Navigate } from 'https://esm.sh/react-router-dom@6.23.1';
+import { User, onAuthStateChanged } from 'https://esm.sh/firebase@10.12.2/auth';
 import { auth } from './lib/firebase';
 
 import Login from './pages/Login';
