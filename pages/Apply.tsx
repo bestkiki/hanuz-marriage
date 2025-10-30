@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { db } from '../firebaseConfig';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 
 interface FormData {
     name: string;
@@ -48,6 +51,7 @@ const Apply: React.FC = () => {
         privacy: false,
     });
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const [isPolicyVisible, setIsPolicyVisible] = useState(false);
     const navigate = useNavigate();
 
@@ -78,8 +82,10 @@ const Apply: React.FC = () => {
         }
     };
     
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setLoading(true);
+        setError('');
         
         const requiredFields: { key: keyof FormData; label: string }[] = [
             { key: 'name', label: '성함' },
@@ -98,6 +104,7 @@ const Apply: React.FC = () => {
             if (!formData[field.key]) {
                 setError(`'${field.label}' 항목을 입력해주세요.`);
                 document.getElementsByName(field.key)[0]?.focus();
+                setLoading(false);
                 return;
             }
         }
@@ -105,23 +112,31 @@ const Apply: React.FC = () => {
         if (formData.maritalStatus === '기타' && !formData.maritalStatusOther) {
             setError('결혼경력이 ‘기타’인 경우, 상세 내용을 입력해주세요.');
             document.getElementsByName('maritalStatusOther')[0]?.focus();
+            setLoading(false);
             return;
         }
         
         if (!formData.privacy) {
             setError('개인정보 수집 및 이용 동의에 체크해주세요.');
             document.getElementsByName('privacy')[0]?.focus();
+            setLoading(false);
             return;
         }
 
-        setError('');
-        
-        const finalData = { ...formData };
-        delete (finalData as any).noneLifestyle;
-        console.log('Form data submitted:', finalData);
-        
-        alert('상담 신청이 접수되었습니다. 확인 후 연락드리겠습니다.');
-        navigate('/');
+        try {
+            const finalData = { ...formData, createdAt: serverTimestamp() };
+            delete (finalData as any).noneLifestyle;
+            
+            await addDoc(collection(db, 'applications'), finalData);
+
+            alert('상담 신청이 성공적으로 접수되었습니다. 확인 후 신속하게 연락드리겠습니다.');
+            navigate('/');
+        } catch (err) {
+            console.error("Error adding document: ", err);
+            setError('신청서 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        } finally {
+            setLoading(false);
+        }
     };
     
     const inputStyle = "w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-rose-500 focus:border-rose-500 transition";
@@ -251,8 +266,8 @@ const Apply: React.FC = () => {
                         {error && <p className="text-sm text-red-600 text-center bg-red-100 p-3 rounded-md">{error}</p>}
 
                         <div>
-                            <button type="submit" className="w-full bg-rose-500 text-white font-bold py-4 px-6 rounded-md hover:bg-rose-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 text-lg" disabled={!formData.privacy}>
-                                상담 신청서 제출하기
+                            <button type="submit" className="w-full bg-rose-500 text-white font-bold py-4 px-6 rounded-md hover:bg-rose-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 text-lg" disabled={!formData.privacy || loading}>
+                                {loading ? '제출 중...' : '상담 신청서 제출하기'}
                             </button>
                         </div>
                     </form>
