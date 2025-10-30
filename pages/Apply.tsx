@@ -1,278 +1,100 @@
+
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { db } from '../firebaseConfig';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-
-
-interface FormData {
-    name: string;
-    birthdate: string;
-    phone: string;
-    region: string;
-    housingType: string;
-    job: string;
-    email: string;
-    maritalStatus: '초혼' | '재혼' | '사실혼' | '기타' | '';
-    maritalStatusOther: string;
-    childrenStatus: '없음' | '있음 (함께 거주)' | '있음 (비동거)' | '';
-    heightWeight: string;
-    drinks: boolean;
-    smokes: boolean;
-    noneLifestyle: boolean;
-    interestReason: string;
-    idealPartner: string;
-    consultationMethod: '전화 상담' | '카카오톡 상담' | '방문 상담(사무실)' | '만남 상담(카페)' | '';
-    consultationTime: '오전 (09시~12시)' | '오후 (12시~18시)' | '저녁 (18시~21시)' | '주말만 가능' | '';
-    questions: string;
-    privacy: boolean;
-}
+import { Link } from 'react-router-dom';
 
 const Apply: React.FC = () => {
-    const [formData, setFormData] = useState<FormData>({
-        name: '',
-        birthdate: '',
-        phone: '',
-        region: '',
-        housingType: '',
-        job: '',
-        email: '',
-        maritalStatus: '',
-        maritalStatusOther: '',
-        childrenStatus: '',
-        heightWeight: '',
-        drinks: false,
-        smokes: false,
-        noneLifestyle: false,
-        interestReason: '',
-        idealPartner: '',
-        consultationMethod: '',
-        consultationTime: '',
-        questions: '',
-        privacy: false,
-    });
-    const [error, setError] = useState('');
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [inquiry, setInquiry] = useState('');
+    const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [isPolicyVisible, setIsPolicyVisible] = useState(false);
-    const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value, type } = e.target;
-
-        if (type === 'checkbox') {
-            const { checked } = e.target as HTMLInputElement;
-            
-            if (name === 'noneLifestyle') {
-                setFormData(prev => ({ 
-                    ...prev, 
-                    drinks: false,
-                    smokes: false,
-                    noneLifestyle: checked 
-                }));
-            } else if (name === 'drinks' || name === 'smokes') {
-                 setFormData(prev => ({ 
-                    ...prev, 
-                    [name]: checked,
-                    noneLifestyle: false
-                }));
-            } else {
-                setFormData(prev => ({ ...prev, [name]: checked }));
-            }
-        } else {
-            setFormData(prev => ({ ...prev, [name]: value }));
-        }
-    };
-    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
-        
-        const requiredFields: { key: keyof FormData; label: string }[] = [
-            { key: 'name', label: '성함' },
-            { key: 'birthdate', label: '생년월일' },
-            { key: 'phone', label: '연락처 or 카카오톡 아이디' },
-            { key: 'region', label: '거주지역' },
-            { key: 'job', label: '직업, 월 소득' },
-            { key: 'email', label: '이메일' },
-            { key: 'maritalStatus', label: '결혼경력' },
-            { key: 'idealPartner', label: '희망하는 여성상' },
-            { key: 'consultationMethod', label: '상담 희망 방식' },
-            { key: 'consultationTime', label: '상담 가능 시간' },
-        ];
-    
-        for (const field of requiredFields) {
-            if (!formData[field.key]) {
-                setError(`'${field.label}' 항목을 입력해주세요.`);
-                document.getElementsByName(field.key)[0]?.focus();
-                setLoading(false);
-                return;
-            }
-        }
-
-        if (formData.maritalStatus === '기타' && !formData.maritalStatusOther) {
-            setError('결혼경력이 ‘기타’인 경우, 상세 내용을 입력해주세요.');
-            document.getElementsByName('maritalStatusOther')[0]?.focus();
-            setLoading(false);
-            return;
-        }
-        
-        if (!formData.privacy) {
-            setError('개인정보 수집 및 이용 동의에 체크해주세요.');
-            document.getElementsByName('privacy')[0]?.focus();
-            setLoading(false);
-            return;
-        }
-
-        try {
-            const finalData = { ...formData, createdAt: serverTimestamp() };
-            delete (finalData as any).noneLifestyle;
-            
-            await addDoc(collection(db, 'applications'), finalData);
-
-            alert('상담 신청이 성공적으로 접수되었습니다. 확인 후 신속하게 연락드리겠습니다.');
-            navigate('/');
-        } catch (err) {
-            console.error("Error adding document: ", err);
-            setError('신청서 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-        } finally {
-            setLoading(false);
-        }
+        // Simulate API call
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        console.log({ name, phone, inquiry });
+        setLoading(false);
+        setSubmitted(true);
     };
-    
-    const inputStyle = "w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-rose-500 focus:border-rose-500 transition";
 
-    const FormGroup: React.FC<{ label: string; required?: boolean; children: React.ReactNode }> = ({ label, required, children }) => (
-        <div>
-            <label className="block text-sm font-bold text-slate-700 mb-2">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
-            {children}
-        </div>
-    );
+    if (submitted) {
+        return (
+            <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center text-center px-4">
+                <div className="max-w-md w-full mx-auto bg-white p-8 rounded-lg shadow-lg">
+                    <h2 className="text-2xl font-bold text-slate-700 mb-4">신청 완료!</h2>
+                    <p className="text-slate-600 mb-6">상담 신청이 성공적으로 접수되었습니다. 빠른 시일 내에 연락드리겠습니다.</p>
+                    <Link to="/" className="bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-6 rounded-full transition-all">
+                        홈으로 돌아가기
+                    </Link>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="bg-slate-50 min-h-screen">
-            <header className="bg-white shadow-sm sticky top-0 z-10">
-                 <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                    <Link to="/" className="text-2xl font-bold text-slate-800">한우즈 국제결혼</Link>
-                    <Link to="/" className="text-sm text-slate-600 hover:text-rose-500">&larr; 홈페이지로 돌아가기</Link>
-                </div>
-            </header>
-            <main className="container mx-auto px-6 py-12">
-                <div className="max-w-3xl mx-auto bg-white p-8 md:p-12 rounded-lg shadow-lg">
-                    <img src="https://lh7-rt.googleusercontent.com/formsz/AN7BsVDOegkeGIBja0i1co3LfoIAVhtjqLqQAPH_hTdSmTJqwjsnpLkywHVAw5wkYTUoQMtWXATFwnHHioNOakFirQ8fqEPcamKwx4DvrWjwsKzUdMBAZAUKNKcjFHu7_PkNZtv30DtxZSzk-iCnXDFGjt7g_mCOMNd0KhzFxmJeyV0dIhpNitaTpFFfBLiBsRpYcBciwPgEdI6Pb-U=w740?key=BM9gqd9Q3t4Tui3ITbR-MA" alt="Hanuz International Marriage Banner" className="w-full rounded-lg mb-8" />
-                    <div className="text-center mb-10">
-                        <h1 className="text-3xl font-bold text-slate-800">한우즈 국제결혼 상담 신청서</h1>
-                        <p className="text-slate-600 mt-3">국제결혼의 희망을 전하는 호프맨이 고객님들의 소중한 만남을 위해 정성을 다하겠습니다.</p>
-                        <p className="mt-4 text-sm text-red-500">* 표시는 필수 질문임</p>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className="space-y-8">
-                        <FormGroup label="성함" required><input type="text" name="name" value={formData.name} onChange={handleChange} required className={inputStyle} /></FormGroup>
-                        <FormGroup label="생년월일" required><input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} required className={inputStyle} /></FormGroup>
-                        <FormGroup label="연락처 or 카카오톡 아이디" required><input type="tel" name="phone" value={formData.phone} onChange={handleChange} required className={inputStyle} placeholder="010-1234-5678" /></FormGroup>
-                        <FormGroup label="거주지역" required><input type="text" name="region" value={formData.region} onChange={handleChange} required className={inputStyle} placeholder="경기도 고양시" /></FormGroup>
-                        <FormGroup label="거주형태"><input type="text" name="housingType" value={formData.housingType} onChange={handleChange} className={inputStyle} placeholder="예 : 아파트, 빌라, 투룸, 원룸 등" /></FormGroup>
-                        <FormGroup label="직업, 월 소득" required><input type="text" name="job" value={formData.job} onChange={handleChange} required className={inputStyle} /></FormGroup>
-                        <FormGroup label="이메일" required><input type="email" name="email" value={formData.email} onChange={handleChange} required className={inputStyle} placeholder="example@email.com" /></FormGroup>
-                        
-                        <FormGroup label="결혼경력" required>
-                            <div className="space-y-2">
-                                {['초혼', '재혼', '사실혼', '기타'].map(status => (
-                                    <div key={status} className="flex items-center">
-                                        <input type="radio" id={status} name="maritalStatus" value={status} checked={formData.maritalStatus === status} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300" />
-                                        <label htmlFor={status} className="ml-3 block text-sm text-slate-800">{status}</label>
-                                    </div>
-                                ))}
-                                {formData.maritalStatus === '기타' && (
-                                    <input type="text" name="maritalStatusOther" value={formData.maritalStatusOther} onChange={handleChange} className={`${inputStyle} mt-2`} placeholder="기타 내용을 입력하세요" />
-                                )}
-                            </div>
-                        </FormGroup>
-                        
-                        <FormGroup label="자녀 유무 (선택)">
-                            <div className="space-y-2">
-                                {['없음', '있음 (함께 거주)', '있음 (비동거)'].map(status => (
-                                    <div key={status} className="flex items-center">
-                                        <input type="radio" id={`children-${status}`} name="childrenStatus" value={status} checked={formData.childrenStatus === status} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300" />
-                                        <label htmlFor={`children-${status}`} className="ml-3 block text-sm text-slate-800">{status}</label>
-                                    </div>
-                                ))}
-                            </div>
-                        </FormGroup>
-
-                        <FormGroup label="신장/체중"><input type="text" name="heightWeight" value={formData.heightWeight} onChange={handleChange} className={inputStyle} placeholder="175cm / 75kg" /></FormGroup>
-
-                        <FormGroup label="음주/흡연">
-                             <div className="space-y-2">
-                                <div className="flex items-center"><input type="checkbox" id="drinks" name="drinks" checked={formData.drinks} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300 rounded" /><label htmlFor="drinks" className="ml-3 text-sm text-slate-800">음주</label></div>
-                                <div className="flex items-center"><input type="checkbox" id="smokes" name="smokes" checked={formData.smokes} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300 rounded" /><label htmlFor="smokes" className="ml-3 text-sm text-slate-800">흡연</label></div>
-                                <div className="flex items-center"><input type="checkbox" id="noneLifestyle" name="noneLifestyle" checked={formData.noneLifestyle} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300 rounded" /><label htmlFor="noneLifestyle" className="ml-3 text-sm text-slate-800">해당 없음</label></div>
-                            </div>
-                        </FormGroup>
-                        
-                        <FormGroup label="우즈베키스탄 여성과의 결혼에 관심을 갖게 된 계기 (선택)">
-                            <textarea name="interestReason" value={formData.interestReason} onChange={handleChange} rows={4} className={inputStyle} placeholder="자유롭게 작성해주세요"></textarea>
-                        </FormGroup>
-
-                        <FormGroup label="희망하는 여성상" required><textarea name="idealPartner" value={formData.idealPartner} onChange={handleChange} rows={5} required className={inputStyle} placeholder="성격, 가치관, 외모 등 희망하는 여성상에 대해 자유롭게 기술해주세요."></textarea></FormGroup>
-                        
-                        <FormGroup label="상담 희망 방식" required>
-                            <div className="space-y-2">
-                                {['전화 상담', '카카오톡 상담', '방문 상담(사무실)', '만남 상담(카페)'].map(method => (
-                                    <div key={method} className="flex items-center">
-                                        <input type="radio" id={method} name="consultationMethod" value={method} checked={formData.consultationMethod === method} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300" />
-                                        <label htmlFor={method} className="ml-3 block text-sm text-slate-800">{method}</label>
-                                    </div>
-                                ))}
-                            </div>
-                        </FormGroup>
-
-                        <FormGroup label="상담 가능 시간" required>
-                            <div className="space-y-2">
-                                {['오전 (09시~12시)', '오후 (12시~18시)', '저녁 (18시~21시)', '주말만 가능'].map(time => (
-                                    <div key={time} className="flex items-center">
-                                        <input type="radio" id={time} name="consultationTime" value={time} checked={formData.consultationTime === time} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300" />
-                                        <label htmlFor={time} className="ml-3 block text-sm text-slate-800">{time}</label>
-                                    </div>
-                                ))}
-                            </div>
-                        </FormGroup>
-                        
-                        <FormGroup label="궁금한 점"><textarea name="questions" value={formData.questions} onChange={handleChange} rows={4} className={inputStyle} placeholder="국제결혼 절차나 비용 등 궁금한 점이 있다면 편하게 작성해주세요."></textarea></FormGroup>
-
-                        <div className="border-t border-slate-200 pt-6">
-                            <FormGroup label="개인정보 수집 및 이용 동의" required>
-                                <div className="bg-slate-100 p-4 rounded-md text-sm text-slate-600">
-                                    <div className="flex items-start">
-                                        <input type="checkbox" id="privacy" name="privacy" checked={formData.privacy} onChange={handleChange} required className="h-4 w-4 mt-1 text-rose-600 focus:ring-rose-500 border-slate-300 rounded" />
-                                        <label htmlFor="privacy" className="ml-3 block text-sm text-slate-800">
-                                            개인정보 수집 및 이용에 동의합니다.
-                                            <span onClick={() => setIsPolicyVisible(!isPolicyVisible)} className="ml-2 text-rose-600 hover:underline cursor-pointer text-xs">(자세히 보기)</span>
-                                        </label>
-                                    </div>
-                                     {isPolicyVisible && (
-                                        <div className="mt-4 space-y-2 text-xs">
-                                            <p><strong>1. 수집하는 개인정보의 항목:</strong> 성함, 생년월일, 연락처, 거주지역, 직업, 이메일, 결혼경력, 신장/체중, 음주/흡연 여부 등 상담신청서에 기재된 모든 항목</p>
-                                            <p><strong>2. 개인정보의 수집 및 이용 목적:</strong> 국제결혼 상담 및 관련 서비스 제공</p>
-                                            <p><strong>3. 개인정보의 보유 및 이용 기간:</strong> 상담 신청일로부터 3년 또는 정보주체의 삭제 요청 시까지</p>
-                                            <p><strong>4. 귀하는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다.</strong> 다만, 필수 항목에 대한 동의를 거부할 경우 상담 서비스 제공이 제한될 수 있습니다.</p>
-                                        </div>
-                                    )}
-                                </div>
-                            </FormGroup>
+        <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center py-12 px-4">
+             <div className="max-w-md w-full mx-auto">
+                <Link to="/" className="block text-center text-3xl font-bold text-slate-800 mb-8">
+                    한우즈 국제결혼
+                </Link>
+                <div className="bg-white p-8 rounded-lg shadow-lg">
+                    <h2 className="text-2xl font-bold text-center text-slate-700 mb-6">무료 상담 신청</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label className="block text-slate-600 text-sm font-bold mb-2" htmlFor="name">
+                                성함
+                            </label>
+                            <input
+                                className="shadow appearance-none border rounded w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-rose-500"
+                                id="name"
+                                type="text"
+                                placeholder="홍길동"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
                         </div>
-
-                        {error && <p className="text-sm text-red-600 text-center bg-red-100 p-3 rounded-md">{error}</p>}
-
-                        <div>
-                            <button type="submit" className="w-full bg-rose-500 text-white font-bold py-4 px-6 rounded-md hover:bg-rose-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 text-lg" disabled={!formData.privacy || loading}>
-                                {loading ? '제출 중...' : '상담 신청서 제출하기'}
+                        <div className="mb-4">
+                            <label className="block text-slate-600 text-sm font-bold mb-2" htmlFor="phone">
+                                연락처
+                            </label>
+                            <input
+                                className="shadow appearance-none border rounded w-full py-3 px-4 text-slate-700 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-rose-500"
+                                id="phone"
+                                type="tel"
+                                placeholder="010-1234-5678"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="mb-6">
+                            <label className="block text-slate-600 text-sm font-bold mb-2" htmlFor="inquiry">
+                                문의 내용 (선택)
+                            </label>
+                            <textarea
+                                className="shadow appearance-none border rounded w-full py-3 px-4 text-slate-700 mb-3 leading-tight focus:outline-none focus:shadow-outline focus:ring-2 focus:ring-rose-500"
+                                id="inquiry"
+                                placeholder="궁금한 점이나 희망사항을 적어주세요."
+                                value={inquiry}
+                                onChange={(e) => setInquiry(e.target.value)}
+                                rows={4}
+                            />
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <button
+                                className={`w-full bg-rose-500 hover:bg-rose-600 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline transition-all ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                type="submit"
+                                disabled={loading}
+                            >
+                                {loading ? '신청 중...' : '상담 신청하기'}
                             </button>
                         </div>
                     </form>
                 </div>
-            </main>
+            </div>
         </div>
     );
 };
