@@ -6,15 +6,20 @@ interface FormData {
     birthdate: string;
     phone: string;
     region: string;
+    housingType: string;
     job: string;
     email: string;
     maritalStatus: '초혼' | '재혼' | '사실혼' | '기타' | '';
     maritalStatusOther: string;
+    childrenStatus: '없음' | '있음 (함께 거주)' | '있음 (비동거)' | '';
     heightWeight: string;
     drinks: boolean;
     smokes: boolean;
     noneLifestyle: boolean;
+    interestReason: string;
     idealPartner: string;
+    consultationMethod: '전화 상담' | '카카오톡 상담' | '방문 상담(사무실)' | '만남 상담(카페)' | '';
+    consultationTime: '오전 (09시~12시)' | '오후 (12시~18시)' | '저녁 (18시~21시)' | '주말만 가능' | '';
     questions: string;
     privacy: boolean;
 }
@@ -25,15 +30,20 @@ const Apply: React.FC = () => {
         birthdate: '',
         phone: '',
         region: '',
+        housingType: '',
         job: '',
         email: '',
         maritalStatus: '',
         maritalStatusOther: '',
+        childrenStatus: '',
         heightWeight: '',
         drinks: false,
         smokes: false,
         noneLifestyle: false,
+        interestReason: '',
         idealPartner: '',
+        consultationMethod: '',
+        consultationTime: '',
         questions: '',
         privacy: false,
     });
@@ -74,12 +84,14 @@ const Apply: React.FC = () => {
         const requiredFields: { key: keyof FormData; label: string }[] = [
             { key: 'name', label: '성함' },
             { key: 'birthdate', label: '생년월일' },
-            { key: 'phone', label: '연락처' },
+            { key: 'phone', label: '연락처 or 카카오톡 아이디' },
             { key: 'region', label: '거주지역' },
-            { key: 'job', label: '직업' },
+            { key: 'job', label: '직업, 월 소득' },
             { key: 'email', label: '이메일' },
             { key: 'maritalStatus', label: '결혼경력' },
             { key: 'idealPartner', label: '희망하는 여성상' },
+            { key: 'consultationMethod', label: '상담 희망 방식' },
+            { key: 'consultationTime', label: '상담 가능 시간' },
         ];
     
         for (const field of requiredFields) {
@@ -143,9 +155,10 @@ const Apply: React.FC = () => {
                     <form onSubmit={handleSubmit} className="space-y-8">
                         <FormGroup label="성함" required><input type="text" name="name" value={formData.name} onChange={handleChange} required className={inputStyle} /></FormGroup>
                         <FormGroup label="생년월일" required><input type="date" name="birthdate" value={formData.birthdate} onChange={handleChange} required className={inputStyle} /></FormGroup>
-                        <FormGroup label="연락처" required><input type="tel" name="phone" value={formData.phone} onChange={handleChange} required className={inputStyle} placeholder="010-1234-5678" /></FormGroup>
+                        <FormGroup label="연락처 or 카카오톡 아이디" required><input type="tel" name="phone" value={formData.phone} onChange={handleChange} required className={inputStyle} placeholder="010-1234-5678" /></FormGroup>
                         <FormGroup label="거주지역" required><input type="text" name="region" value={formData.region} onChange={handleChange} required className={inputStyle} placeholder="경기도 고양시" /></FormGroup>
-                        <FormGroup label="직업" required><input type="text" name="job" value={formData.job} onChange={handleChange} required className={inputStyle} /></FormGroup>
+                        <FormGroup label="거주형태"><input type="text" name="housingType" value={formData.housingType} onChange={handleChange} className={inputStyle} placeholder="예 : 아파트, 빌라, 투룸, 원룸 등" /></FormGroup>
+                        <FormGroup label="직업, 월 소득" required><input type="text" name="job" value={formData.job} onChange={handleChange} required className={inputStyle} /></FormGroup>
                         <FormGroup label="이메일" required><input type="email" name="email" value={formData.email} onChange={handleChange} required className={inputStyle} placeholder="example@email.com" /></FormGroup>
                         
                         <FormGroup label="결혼경력" required>
@@ -161,6 +174,17 @@ const Apply: React.FC = () => {
                                 )}
                             </div>
                         </FormGroup>
+                        
+                        <FormGroup label="자녀 유무 (선택)">
+                            <div className="space-y-2">
+                                {['없음', '있음 (함께 거주)', '있음 (비동거)'].map(status => (
+                                    <div key={status} className="flex items-center">
+                                        <input type="radio" id={`children-${status}`} name="childrenStatus" value={status} checked={formData.childrenStatus === status} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300" />
+                                        <label htmlFor={`children-${status}`} className="ml-3 block text-sm text-slate-800">{status}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </FormGroup>
 
                         <FormGroup label="신장/체중"><input type="text" name="heightWeight" value={formData.heightWeight} onChange={handleChange} className={inputStyle} placeholder="175cm / 75kg" /></FormGroup>
 
@@ -171,8 +195,35 @@ const Apply: React.FC = () => {
                                 <div className="flex items-center"><input type="checkbox" id="noneLifestyle" name="noneLifestyle" checked={formData.noneLifestyle} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300 rounded" /><label htmlFor="noneLifestyle" className="ml-3 text-sm text-slate-800">해당 없음</label></div>
                             </div>
                         </FormGroup>
+                        
+                        <FormGroup label="우즈베키스탄 여성과의 결혼에 관심을 갖게 된 계기 (선택)">
+                            <textarea name="interestReason" value={formData.interestReason} onChange={handleChange} rows={4} className={inputStyle} placeholder="자유롭게 작성해주세요"></textarea>
+                        </FormGroup>
 
                         <FormGroup label="희망하는 여성상" required><textarea name="idealPartner" value={formData.idealPartner} onChange={handleChange} rows={5} required className={inputStyle} placeholder="성격, 가치관, 외모 등 희망하는 여성상에 대해 자유롭게 기술해주세요."></textarea></FormGroup>
+                        
+                        <FormGroup label="상담 희망 방식" required>
+                            <div className="space-y-2">
+                                {['전화 상담', '카카오톡 상담', '방문 상담(사무실)', '만남 상담(카페)'].map(method => (
+                                    <div key={method} className="flex items-center">
+                                        <input type="radio" id={method} name="consultationMethod" value={method} checked={formData.consultationMethod === method} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300" />
+                                        <label htmlFor={method} className="ml-3 block text-sm text-slate-800">{method}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </FormGroup>
+
+                        <FormGroup label="상담 가능 시간" required>
+                            <div className="space-y-2">
+                                {['오전 (09시~12시)', '오후 (12시~18시)', '저녁 (18시~21시)', '주말만 가능'].map(time => (
+                                    <div key={time} className="flex items-center">
+                                        <input type="radio" id={time} name="consultationTime" value={time} checked={formData.consultationTime === time} onChange={handleChange} className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-slate-300" />
+                                        <label htmlFor={time} className="ml-3 block text-sm text-slate-800">{time}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </FormGroup>
+                        
                         <FormGroup label="궁금한 점"><textarea name="questions" value={formData.questions} onChange={handleChange} rows={4} className={inputStyle} placeholder="국제결혼 절차나 비용 등 궁금한 점이 있다면 편하게 작성해주세요."></textarea></FormGroup>
 
                         <div className="border-t border-slate-200 pt-6">
@@ -187,7 +238,7 @@ const Apply: React.FC = () => {
                                     </div>
                                      {isPolicyVisible && (
                                         <div className="mt-4 space-y-2 text-xs">
-                                            <p><strong>1. 수집하는 개인정보의 항목:</strong> 성함, 생년월일, 연락처, 거주지역, 직업, 이메일, 결혼경력, 신장/체중, 음주/흡연 여부</p>
+                                            <p><strong>1. 수집하는 개인정보의 항목:</strong> 성함, 생년월일, 연락처, 거주지역, 직업, 이메일, 결혼경력, 신장/체중, 음주/흡연 여부 등 상담신청서에 기재된 모든 항목</p>
                                             <p><strong>2. 개인정보의 수집 및 이용 목적:</strong> 국제결혼 상담 및 관련 서비스 제공</p>
                                             <p><strong>3. 개인정보의 보유 및 이용 기간:</strong> 상담 신청일로부터 3년 또는 정보주체의 삭제 요청 시까지</p>
                                             <p><strong>4. 귀하는 개인정보 수집 및 이용에 대한 동의를 거부할 권리가 있습니다.</strong> 다만, 필수 항목에 대한 동의를 거부할 경우 상담 서비스 제공이 제한될 수 있습니다.</p>
