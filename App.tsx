@@ -1,6 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { InstagramIcon, BlogIcon, FacebookIcon, YoutubeIcon, KakaoIcon, PhoneIcon } from './components/Icons';
+import LoginPage from './pages/LoginPage';
+import AdminPage from './pages/AdminPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 type Member = {
   id: number;
@@ -65,7 +69,10 @@ const Header: React.FC = () => {
 
     const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
         e.preventDefault();
-        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+        const element = document.querySelector(href);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
         setIsOpen(false);
     };
 
@@ -73,7 +80,7 @@ const Header: React.FC = () => {
         <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md' : 'bg-transparent'}`}>
             <div className="container mx-auto px-6 py-3">
                 <div className="flex justify-between items-center">
-                    <a href="#" className={`text-2xl font-bold ${isScrolled ? 'text-slate-800' : 'text-white'}`}>한우즈 국제결혼</a>
+                    <a href="/#" className={`text-2xl font-bold ${isScrolled ? 'text-slate-800' : 'text-white'}`}>한우즈 국제결혼</a>
                     <nav className="hidden md:flex items-center space-x-8">
                         {navLinks.map(link => (
                             <a key={link.name} href={link.href} onClick={(e) => scrollToSection(e, link.href)} className={`text-lg hover:text-rose-500 transition-colors ${isScrolled ? 'text-slate-600' : 'text-gray-200'}`}>{link.name}</a>
@@ -135,7 +142,7 @@ const About: React.FC = () => (
                     <p className="text-slate-600 text-base leading-relaxed mb-6">
                         언어의 장벽, 문화의 차이에 대한 걱정은 저희에게 맡겨주세요. 초기 상담부터 성혼, 그리고 한국에서의 안정적인 정착까지 모든 과정을 책임지고 투명하게 지원합니다. 당신의 행복한 시작을 한우즈가 함께하겠습니다.
                     </p>
-                    <a href="#process" onClick={(e) => document.querySelector('#process')?.scrollIntoView({ behavior: 'smooth' })} className="text-rose-600 font-semibold hover:underline">결혼 절차 자세히 보기 &rarr;</a>
+                    <a href="#process" onClick={(e) => { e.preventDefault(); document.querySelector('#process')?.scrollIntoView({ behavior: 'smooth' })}} className="text-rose-600 font-semibold hover:underline">결혼 절차 자세히 보기 &rarr;</a>
                 </div>
             </div>
         </div>
@@ -272,7 +279,7 @@ const Footer: React.FC = () => (
     </footer>
 );
 
-const App: React.FC = () => {
+const HomePage: React.FC = () => {
     return (
         <div className="bg-white">
             <Header />
@@ -286,6 +293,25 @@ const App: React.FC = () => {
             </main>
             <Footer />
         </div>
+    );
+};
+
+const App: React.FC = () => {
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route
+                    path="/admin"
+                    element={
+                        <ProtectedRoute>
+                            <AdminPage />
+                        </ProtectedRoute>
+                    }
+                />
+            </Routes>
+        </BrowserRouter>
     );
 };
 
