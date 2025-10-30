@@ -254,12 +254,12 @@ const Footer: React.FC = () => (
                 <div className="text-sm space-y-3">
                     <h3 className="text-lg font-semibold text-white mb-2">상담 및 문의</h3>
                     <div className="flex items-center space-x-2">
-                        //<KakaoIcon className="w-5 h-5 text-yellow-300"/>
-                        //<span>카카오톡: grada19</span>
+                        /* <KakaoIcon className="w-5 h-5 text-yellow-300"/> 
+                        <span>카카오톡: grada19</span> */
                     </div>
                      <div className="flex items-center space-x-2">
-                        //<PhoneIcon className="w-5 h-5 text-green-400"/>
-                        //<span>연락처: 010-2738-8199</span>
+                        /* <PhoneIcon className="w-5 h-5 text-green-400"/>
+                        <span>연락처: 010-2738-8199</span> */
                     </div>
                     <Link to="/apply" className="inline-block mt-4 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2 px-4 rounded">
                         상담신청서 바로가기
