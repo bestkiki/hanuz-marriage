@@ -163,7 +163,7 @@ const Admin: React.FC = () => {
                                             <td className="px-4 py-4 whitespace-nowrap text-sm text-slate-600">{app.consultationTime}</td>
                                             <td className="px-4 py-4 whitespace-nowrap text-center text-sm font-medium">
                                                 <button onClick={() => setSelectedApp(app)} className="text-indigo-600 hover:text-indigo-900 mr-3">상세보기</button>
-                                                <button onClick={() => handleDelete(app.id)} className="text-red-600 hover:text-red-900">삭제</button>
+                                                //<button onClick={() => handleDelete(app.id)} className="text-red-600 hover:text-red-900">삭제</button>
                                             </td>
                                         </tr>
                                     ))
