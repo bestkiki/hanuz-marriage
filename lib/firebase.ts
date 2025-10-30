@@ -1,17 +1,15 @@
 
-import { initializeApp } from "https://esm.sh/firebase@10.12.2/app";
-import { getAuth } from "https://esm.sh/firebase@10.12.2/auth";
+import { initializeApp } from 'https://esm.sh/firebase@10.12.2/app';
+import { getAuth } from 'https://esm.sh/firebase@10.12.2/auth';
 
-// IMPORTANT: Replace the following with your app's Firebase project configuration.
-// See the instructions provided on how to obtain this from the Firebase console.
+// IMPORTANT: Your web app's Firebase configuration should be sourced from environment variables.
 const firebaseConfig = {
-  apiKey: "AIzaSyCCykfIGom6dd80T4JgDynZaXbsO2iYzCw",
-  authDomain: "hanuz-marriage.firebaseapp.com",
-  projectId: "hanuz-marriage",
-  storageBucket: "hanuz-marriage.firebasestorage.app",
-  messagingSenderId: "226067109424",
-  appId: "1:226067109424:web:cb0cebef4a17a22b27bff5",
-  measurementId: "G-KT40XFN51H"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
