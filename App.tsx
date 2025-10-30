@@ -1,5 +1,10 @@
+import React, { useState, useEffect, ReactNode } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { auth } from './lib/firebase';
 
-import React, { useState, useEffect } from 'react';
+import Login from './pages/Login';
+import Admin from './pages/Admin';
 import { InstagramIcon, BlogIcon, FacebookIcon, YoutubeIcon, KakaoIcon, PhoneIcon } from './components/Icons';
 
 type Member = {
@@ -18,7 +23,7 @@ type Testimonial = {
 };
 
 const members: Member[] = [
-  { id: 1, name: '디요니', age: 23, bio: '한국 문화에 관심이 많고, 자상한 분을 만나고 싶어요.', imageUrl: 'https://picsum.photos/seed/member1/400/500' },
+  { id: 1, name: '디요라', age: 23, bio: '한국 문화에 관심이 많고, 자상한 분을 만나고 싶어요.', imageUrl: 'https://picsum.photos/seed/member1/400/500' },
   { id: 2, name: '사오닷', age: 25, bio: '요리를 좋아하며, 함께 행복한 가정을 꾸리고 싶습니다.', imageUrl: 'https://picsum.photos/seed/member2/400/500' },
   { id: 3, name: '굴노자', age: 22, bio: '긍정적이고 밝은 성격입니다. 서로 존중하는 관계를 원해요.', imageUrl: 'https://picsum.photos/seed/member3/400/500' },
   { id: 4, name: '카몰라', age: 26, bio: '예술과 음악을 사랑합니다. 감성적인 분과 만나고 싶어요.', imageUrl: 'https://picsum.photos/seed/member4/400/500' },
@@ -272,7 +277,7 @@ const Footer: React.FC = () => (
     </footer>
 );
 
-const App: React.FC = () => {
+const Home: React.FC = () => {
     return (
         <div className="bg-white">
             <Header />
@@ -286,6 +291,43 @@ const App: React.FC = () => {
             </main>
             <Footer />
         </div>
+    );
+};
+
+const PrivateRoute: React.FC<{ user: User | null; loading: boolean; children: React.ReactElement }> = ({ user, loading, children }) => {
+  if (loading) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
+  return user ? children : <Navigate to="/login" replace />;
+};
+
+const App: React.FC = () => {
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+            setUser(currentUser);
+            setLoading(false);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route 
+                    path="/admin" 
+                    element={
+                        <PrivateRoute user={user} loading={loading}>
+                            <Admin />
+                        </PrivateRoute>
+                    } 
+                />
+            </Routes>
+        </BrowserRouter>
     );
 };
 
