@@ -79,7 +79,7 @@ const Header: React.FC = () => {
                             <a key={link.name} href={link.href} onClick={(e) => scrollToSection(e, link.href)} className={`text-lg hover:text-rose-500 transition-colors ${isScrolled ? 'text-slate-600' : 'text-gray-200'}`}>{link.name}</a>
                         ))}
                         <Link to="/login" className={`text-lg hover:text-rose-500 transition-colors ${isScrolled ? 'text-slate-600' : 'text-gray-200'}`}>로그인</Link>
-                        <a href="https://forms.gle/KUYwUpGQn9RjHHyL9" target="_blank" rel="noopener noreferrer" className="bg-rose-500 text-white font-bold py-2 px-6 rounded-full hover:bg-rose-600 transition-transform hover:scale-105">상담 신청</a>
+                        <Link to="/apply" className="bg-rose-500 text-white font-bold py-2 px-6 rounded-full hover:bg-rose-600 transition-transform hover:scale-105">상담 신청</Link>
                     </nav>
                     <div className="md:hidden">
                         <button onClick={() => setIsOpen(!isOpen)} className={`${isScrolled ? 'text-slate-800' : 'text-white'}`}>
@@ -94,7 +94,7 @@ const Header: React.FC = () => {
                                 <a key={link.name} href={link.href} onClick={(e) => scrollToSection(e, link.href)} className="text-slate-700 hover:text-rose-500 text-lg w-full text-center py-2">{link.name}</a>
                             ))}
                             <Link to="/login" className="text-slate-700 hover:text-rose-500 text-lg w-full text-center py-2">로그인</Link>
-                            <a href="https://forms.gle/KUYwUpGQn9RjHHyL9" target="_blank" rel="noopener noreferrer" className="bg-rose-500 text-white font-bold py-3 px-6 rounded-full hover:bg-rose-600 w-full text-center">상담 신청</a>
+                            <Link to="/apply" className="bg-rose-500 text-white font-bold py-3 px-6 rounded-full hover:bg-rose-600 w-full text-center">상담 신청</Link>
                         </nav>
                     </div>
                 )}
@@ -110,9 +110,9 @@ const Hero: React.FC = () => (
         <div className="relative z-10 p-6">
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">우즈베키스탄 국제결혼, <br className="md:hidden" /> 희망을 현실로</h1>
             <p className="text-lg md:text-2xl font-light mb-8 max-w-2xl mx-auto">신뢰와 진심으로 당신의 소중한 인연을 찾아드립니다. 국제결혼의 희망을 전하는 호프맨이 함께합니다.</p>
-            <a href="https://forms.gle/KUYwUpGQn9RjHHyL9" target="_blank" rel="noopener noreferrer" className="bg-rose-500 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-rose-600 transition-transform transform hover:scale-105 inline-block">
+            <Link to="/apply" className="bg-rose-500 text-white font-bold py-4 px-10 rounded-full text-lg hover:bg-rose-600 transition-transform transform hover:scale-105 inline-block">
                 무료 상담 신청하기
-            </a>
+            </Link>
         </div>
     </section>
 );
@@ -221,9 +221,9 @@ const CTA: React.FC = () => (
         <div className="container mx-auto px-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">이제 당신의 차례입니다</h2>
             <p className="text-lg md:text-xl mb-8 max-w-3xl mx-auto">망설이지 마세요. 작은 용기가 당신의 인생을 바꿀 수 있습니다. 지금 바로 한우즈의 문을 두드려보세요.</p>
-            <a href="https://forms.gle/KUYwUpGQn9RjHHyL9" target="_blank" rel="noopener noreferrer" className="bg-white text-rose-600 font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-100 transition-transform transform hover:scale-105 inline-block shadow-lg">
+            <Link to="/apply" className="bg-white text-rose-600 font-bold py-4 px-10 rounded-full text-lg hover:bg-gray-100 transition-transform transform hover:scale-105 inline-block shadow-lg">
                 인연 찾기 상담 신청
-            </a>
+            </Link>
         </div>
     </section>
 );
@@ -261,9 +261,9 @@ const Footer: React.FC = () => (
                         <PhoneIcon className="w-5 h-5 text-green-400"/>
                         <span>연락처: 010-2738-8199</span>
                     </div>
-                    <a href="https://forms.gle/KUYwUpGQn9RjHHyL9" target="_blank" rel="noopener noreferrer" className="inline-block mt-4 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2 px-4 rounded">
+                    <Link to="/apply" className="inline-block mt-4 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2 px-4 rounded">
                         상담신청서 바로가기
-                    </a>
+                    </Link>
                 </div>
             </div>
             <div className="border-t border-slate-700 mt-8 pt-6 text-center text-xs text-gray-400">
