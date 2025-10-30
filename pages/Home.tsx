@@ -18,7 +18,7 @@ type Testimonial = {
 };
 
 const members: Member[] = [
-  { id: 1, name: '디요라', age: 23, bio: '한국 문화에 관심이 많고, 자상한 분을 만나고 싶어요.', imageUrl: 'https://drive.google.com/file/d/1KzkJ5hbrgf1nWJ75I4iDQEEj3AaLoUla/view?usp=sharing' },
+  { id: 1, name: '디요라', age: 23, bio: '한국 문화에 관심이 많고, 자상한 분을 만나고 싶어요.', imageUrl: 'https://firebasestorage.googleapis.com/v0/b/hanuz-marriage.firebasestorage.app/o/1.png?alt=media&token=6b82df10-e45a-444a-ab37-9df5d2682988' },
   { id: 2, name: '사오닷', age: 25, bio: '요리를 좋아하며, 함께 행복한 가정을 꾸리고 싶습니다.', imageUrl: 'https://picsum.photos/seed/member2/400/500' },
   { id: 3, name: '굴노자', age: 22, bio: '긍정적이고 밝은 성격입니다. 서로 존중하는 관계를 원해요.', imageUrl: 'https://picsum.photos/seed/member3/400/500' },
   { id: 4, name: '카몰라', age: 26, bio: '예술과 음악을 사랑합니다. 감성적인 분과 만나고 싶어요.', imageUrl: 'https://picsum.photos/seed/member4/400/500' },
@@ -105,7 +105,7 @@ const Header: React.FC = () => {
 
 
 const Hero: React.FC = () => (
-    <section className="relative h-screen flex items-center justify-center text-white text-center bg-cover bg-center" style={{ backgroundImage: "url('https://picsum.photos/seed/wedding/1920/1080')" }}>
+    <section className="relative h-screen flex items-center justify-center text-white text-center bg-cover bg-center" style={{ backgroundImage: "url('https://lh3.googleusercontent.com/sitesv/AAzXCkdCh9w8vDdDd038R8IKDHslVEDqcr6YJLuGGeVNc8iWECdd9nz-Tb4ykufaDKYwkhXOrQ9n2TonJK3gH_6Dq--2nmyUEJuLYQKnRvtfkpcK2fOeeQ8jDmYRTt1ahZbOh9s76iWo6Ow81qLky9IE2B3n1CwSaGZD1bbwRPjGwGYos03U3101kYlVAkPagfTUNFPznDyPYi0bgdDGSMgoQwC0efvjVd4TWYSy38o=w1280')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 p-6">
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">우즈베키스탄 국제결혼, <br className="md:hidden" /> 희망을 현실로</h1>
