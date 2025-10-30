@@ -1,4 +1,3 @@
-
 import React from 'https://esm.sh/react@18.2.0';
 import { useNavigate } from 'https://esm.sh/react-router-dom@6.23.1';
 import { auth, signOut } from '../lib/firebase.ts';
