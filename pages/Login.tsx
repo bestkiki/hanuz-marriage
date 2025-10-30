@@ -1,9 +1,7 @@
 
 import React, { useState } from 'https://esm.sh/react@18.2.0';
 import { useNavigate } from 'https://esm.sh/react-router-dom@6.23.1';
-import { signInWithEmailAndPassword } from 'https://esm.sh/firebase@10.12.2/auth';
-// Fix: Explicitly import firebase.ts to resolve module error.
-import { auth } from '../lib/firebase.ts';
+import { auth, signInWithEmailAndPassword } from '../lib/firebase.ts';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');

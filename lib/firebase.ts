@@ -1,6 +1,16 @@
 import { initializeApp, getApp, getApps } from 'https://esm.sh/firebase@10.12.2/app';
-import { getAuth } from 'https://esm.sh/firebase@10.12.2/auth';
-import { getFirestore } from 'https://esm.sh/firebase@10.12.2/firestore';
+import { 
+  getAuth, 
+  onAuthStateChanged, 
+  signOut, 
+  signInWithEmailAndPassword,
+  type User
+} from 'https://esm.sh/firebase@10.12.2/auth';
+import { 
+  getFirestore, 
+  doc, 
+  getDoc 
+} from 'https://esm.sh/firebase@10.12.2/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCCykfIGom6dd80T4JgDynZaXbsO2iYzCw",
@@ -15,5 +25,18 @@ const firebaseConfig = {
 // 어떤 상황에서도 Firebase 앱이 단 한 번만 초기화되도록 보장하는 코드
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+// 초기화된 앱에서 각 서비스를 가져옴
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// 다른 파일들이 Firebase 기능을 사용할 수 있도록 모든 것을 re-export
+export { 
+  auth, 
+  db, 
+  onAuthStateChanged, 
+  signOut, 
+  signInWithEmailAndPassword,
+  doc,
+  getDoc,
+  type User
+};

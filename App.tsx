@@ -9,15 +9,13 @@ import {
   Navigate,
   useLocation,
 } from 'https://esm.sh/react-router-dom@6.23.1';
-import { onAuthStateChanged, User } from 'https://esm.sh/firebase@10.12.2/auth';
-import { doc, getDoc } from 'https://esm.sh/firebase@10.12.2/firestore';
 
 // Import Pages
 import Login from './pages/Login.tsx';
 import Admin from './pages/Admin.tsx';
 
-// Import Firebase services
-import { auth, db } from './lib/firebase.ts';
+// Import Firebase services from the central file
+import { auth, db, onAuthStateChanged, doc, getDoc, type User } from './lib/firebase.ts';
 
 // Import UI components
 import { GoogleGenAI } from 'https://esm.sh/@google/genai';
@@ -100,7 +98,6 @@ const SocialMediaPostGenerator: React.FC = () => {
       setError('');
   
       try {
-        // Fix: Use `process.env.API_KEY` as per the coding guidelines to fix the `import.meta.env` error and adhere to API key handling requirements.
         const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const prompt = `Create a ${platform} post about "${topic}". Include relevant hashtags.`;
         

@@ -1,9 +1,7 @@
 
 import React from 'https://esm.sh/react@18.2.0';
 import { useNavigate } from 'https://esm.sh/react-router-dom@6.23.1';
-import { signOut } from 'https://esm.sh/firebase@10.12.2/auth';
-// Fix: Explicitly import firebase.ts to resolve module error.
-import { auth } from '../lib/firebase.ts';
+import { auth, signOut } from '../lib/firebase.ts';
 
 const Admin: React.FC = () => {
   const navigate = useNavigate();
