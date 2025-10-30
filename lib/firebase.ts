@@ -1,11 +1,15 @@
+// 1. 필요한 기능(auth, firestore) 모듈을 가장 먼저 import하여
+//    초기화 시점에 해당 기능들이 반드시 준비되도록 합니다.
+import 'https://esm.sh/firebase@10.12.2/auth';
+import 'https://esm.sh/firebase@10.12.2/firestore';
+
+// 2. 그 다음, 초기화에 필요한 함수들을 import 합니다.
 import { initializeApp } from 'https://esm.sh/firebase@10.12.2/app';
 import { getAuth } from 'https://esm.sh/firebase@10.12.2/auth';
 import { getFirestore } from 'https://esm.sh/firebase@10.12.2/firestore';
 
 // =================================================================================
-// TODO: 아래 내용을 본인 프로젝트의 Firebase 설정으로 교체해주세요.
-// Firebase 콘솔(https://console.firebase.google.com/)의 프로젝트 설정에서
-// '웹 앱'의 firebaseConfig 객체를 복사하여 붙여넣으면 됩니다.
+// 본인 프로젝트의 Firebase 설정이 여기에 있는지 다시 한번 확인해주세요.
 // =================================================================================
 const firebaseConfig = {
   apiKey: "AIzaSyCCykfIGom6dd80T4JgDynZaXbsO2iYzCw",
@@ -17,10 +21,9 @@ const firebaseConfig = {
   measurementId: "G-KT40XFN51H"
 };
 
-
-// Firebase 초기화
+// Firebase 앱 초기화
 const app = initializeApp(firebaseConfig);
 
-// Firebase 서비스 초기화
+// 초기화된 앱에서 각 서비스를 내보냅니다.
 export const auth = getAuth(app);
 export const db = getFirestore(app);
