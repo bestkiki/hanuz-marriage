@@ -105,7 +105,7 @@ const Header: React.FC = () => {
 
 
 const Hero: React.FC = () => (
-    <section className="relative h-screen flex items-center justify-center text-white text-center bg-cover bg-center" style={{ backgroundImage: "url('https://firebasestorage.googleapis.com/v0/b/hanuz-marriage.firebasestorage.app/o/5.png?alt=media&token=18720555-a922-4dac-a79f-311885b4df5c')" }}>
+    <section className="relative h-screen flex items-center justify-center text-white text-center bg-cover bg-center" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600164913117-2125c1f60b01?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8JUVBJUIyJUIwJUVEJTk4JUJDJTIwJUVDJTgyJUFDJUVDJUE3JTg0fGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=900')" }}>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         <div className="relative z-10 p-6">
             <h1 className="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">우즈베키스탄 국제결혼, <br className="md:hidden" /> 희망을 현실로</h1>
@@ -127,7 +127,7 @@ const About: React.FC = () => (
             </div>
             <div className="flex flex-wrap items-center -mx-4">
                 <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
-                    <img src="https://picsum.photos/seed/hope/800/600" alt="Hope Man" className="rounded-lg shadow-xl" />
+                    <img src="https://firebasestorage.googleapis.com/v0/b/hanuz-marriage.firebasestorage.app/o/5.png?alt=media&token=18720555-a922-4dac-a79f-311885b4df5c" alt="Hope Man" className="rounded-lg shadow-xl" />
                 </div>
                 <div className="w-full lg:w-1/2 px-4">
                     <h3 className="text-2xl font-bold text-slate-800 mb-4">희망을 전하는 호프맨</h3>
