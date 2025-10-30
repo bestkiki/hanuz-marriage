@@ -1,16 +1,7 @@
-// 1. 필요한 기능(auth, firestore) 모듈을 가장 먼저 import하여
-//    초기화 시점에 해당 기능들이 반드시 준비되도록 합니다.
-import 'https://esm.sh/firebase@10.12.2/auth';
-import 'https://esm.sh/firebase@10.12.2/firestore';
-
-// 2. 그 다음, 초기화에 필요한 함수들을 import 합니다.
-import { initializeApp } from 'https://esm.sh/firebase@10.12.2/app';
+import { initializeApp, getApp, getApps } from 'https://esm.sh/firebase@10.12.2/app';
 import { getAuth } from 'https://esm.sh/firebase@10.12.2/auth';
 import { getFirestore } from 'https://esm.sh/firebase@10.12.2/firestore';
 
-// =================================================================================
-// 본인 프로젝트의 Firebase 설정이 여기에 있는지 다시 한번 확인해주세요.
-// =================================================================================
 const firebaseConfig = {
   apiKey: "AIzaSyCCykfIGom6dd80T4JgDynZaXbsO2iYzCw",
   authDomain: "hanuz-marriage.firebaseapp.com",
@@ -21,9 +12,8 @@ const firebaseConfig = {
   measurementId: "G-KT40XFN51H"
 };
 
-// Firebase 앱 초기화
-const app = initializeApp(firebaseConfig);
+// 어떤 상황에서도 Firebase 앱이 단 한 번만 초기화되도록 보장하는 코드
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-// 초기화된 앱에서 각 서비스를 내보냅니다.
 export const auth = getAuth(app);
 export const db = getFirestore(app);

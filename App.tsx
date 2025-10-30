@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'https://esm.sh/react@18.2.0';
 import {
   BrowserRouter,
@@ -99,11 +100,7 @@ const SocialMediaPostGenerator: React.FC = () => {
       setError('');
   
       try {
-        if (!process.env.API_KEY) {
-          setError("API_KEY environment variable not set. Please set it to use the Gemini API.");
-          setIsLoading(false);
-          return;
-        }
+        // Fix: Use `process.env.API_KEY` as per the coding guidelines to fix the `import.meta.env` error and adhere to API key handling requirements.
         const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
         const prompt = `Create a ${platform} post about "${topic}". Include relevant hashtags.`;
         
