@@ -107,7 +107,6 @@ const Admin: React.FC = () => {
                 </div>
                 <div className="mt-6 flex justify-end space-x-3">
                     <button onClick={onClose} className="bg-slate-500 text-white font-bold py-2 px-4 rounded hover:bg-slate-600">닫기</button>
-                    <button onClick={() => handleDelete(app.id)} className="bg-red-500 text-white font-bold py-2 px-4 rounded hover:bg-red-600">삭제</button>
                 </div>
             </div>
         </div>
